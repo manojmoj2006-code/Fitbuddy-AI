@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy - All Users{% endblock %}
+{% block card_class %}wide{% endblock %}
+{% block content %}
+<h1>All <span>Users</span></h1>
+<p class="subtitle">Admin view &mdash; {{ users|length }} registered user{{ '' if users|length == 1 else 's' }}</p>
+
+{% if users %}
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>User ID</th><th>Name</th><th>Age</th><th>Weight</th><th>Goal</th><th>Intensity</th><th>Plans</th><th></th></tr>
+  </thead>
+  <tbody>
+  {% for user in users %}
+    <tr>
+      <td>{{ user.user_id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.age }}</td>
+      <td>{{ user.weight }} kg</td>
+      <td>{{ user.goal|title }}</td>
+      <td>{{ user.intensity|title }}</td>
+      <td>
+        {% if user.plan %}
+        <details>
+          <summary>Original plan</summary>
+          <pre class="plan">{{ user.plan.original_plan }}</pre>
+        </details>
+        {% if user.plan.updated_plan %}
+        <details>
+          <summary>Updated plan</summary>
+          {% if user.plan.feedback %}<p><b>Feedback:</b> {{ user.plan.feedback }}</p>{% endif %}
+          <pre class="plan">{{ user.plan.updated_plan }}</pre>
+        </details>
+        {% else %}<small>No updates yet</small>{% endif %}
+        {% else %}<small>No plan</small>{% endif %}
+      </td>
+      <td>
+        <form action="/delete-user/{{ user.user_id }}" method="post"
+              onsubmit="return confirm('Delete {{ user.user_id }} and their plans?');">
+          <button class="danger" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="subtitle">No users yet. Generate a plan to see it here.</p>
+{% endif %}
+
+<div class="nav"><a href="/">&larr; Back to home</a></div>
+{% endblock %}

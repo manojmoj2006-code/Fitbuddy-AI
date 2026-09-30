@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Your FitBuddy Plan{% endblock %}
+{% block content %}
+<h1>Your <span>Workout Plan</span></h1>
+<p class="subtitle">Hi {{ username }}, here is your personalized plan.</p>
+
+{% if message %}<div class="alert ok">{{ message }}</div>{% endif %}
+{% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+
+<div class="summary">
+  <span class="chip"><b>Name:</b> {{ username }}</span>
+  <span class="chip"><b>User ID:</b> {{ user_id }}</span>
+  <span class="chip"><b>Age:</b> {{ age }}</span>
+  <span class="chip"><b>Weight:</b> {{ weight }} kg</span>
+  <span class="chip"><b>Goal:</b> {{ goal|title }}</span>
+  <span class="chip"><b>Intensity:</b> {{ intensity|title }}</span>
+</div>
+
+<h2>{% if updated_plan %}Updated <span>7-Day Plan</span>{% else %}<span>7-Day</span> Plan{% endif %}</h2>
+<pre class="plan">{{ workout_plan }}</pre>
+
+{% if updated_plan %}
+<details style="margin-top:12px">
+  <summary>Show original plan</summary>
+  <pre class="plan">{{ original_plan }}</pre>
+</details>
+{% endif %}
+
+{% if nutrition_tip %}
+<h2>Nutrition <span>Tip</span></h2>
+<div class="tip">{{ nutrition_tip }}</div>
+{% endif %}
+
+<h2>Give <span>Feedback</span></h2>
+<p class="subtitle" style="text-align:left">Try: "more focus on cardio", "include more rest days", "add yoga".</p>
+<form action="/submit-feedback" method="post">
+  <label for="fb_user_id">User ID</label>
+  <input id="fb_user_id" name="user_id" type="text" value="{{ user_id }}" required>
+  <label for="feedback">Your feedback</label>
+  <textarea id="feedback" name="feedback" rows="3" minlength="3" maxlength="500" required></textarea>
+  <button type="submit" onclick="this.form.checkValidity() && (this.textContent='Updating... (can take ~30s)')">Update My Plan</button>
+</form>
+
+<div class="nav">
+  <a href="/">&larr; Create another plan</a> &nbsp;|&nbsp; <a href="/view-all-users">View all users</a>
+</div>
+{% endblock %}

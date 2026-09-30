@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy - AI Workout Generator{% endblock %}
+{% block content %}
+<h1>Fit<span>Buddy</span></h1>
+<p class="subtitle">AI Workout Generator &mdash; a personal 7-day plan in seconds</p>
+
+{% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+
+<form action="/generate-workout" method="post">
+  <div class="row">
+    <div>
+      <label for="username">Name</label>
+      <input id="username" name="username" type="text" maxlength="50" required value="{{ form.username or '' }}">
+    </div>
+    <div>
+      <label for="user_id">User ID</label>
+      <input id="user_id" name="user_id" type="text" maxlength="40" pattern="[A-Za-z0-9_.-]+"
+             title="Letters, numbers, dot, dash or underscore" required value="{{ form.user_id or '' }}">
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <label for="age">Age</label>
+      <input id="age" name="age" type="number" min="10" max="100" required value="{{ form.age or '' }}">
+    </div>
+    <div>
+      <label for="weight">Weight (kg)</label>
+      <input id="weight" name="weight" type="number" step="0.1" min="20" max="300" required value="{{ form.weight or '' }}">
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <label for="goal">Fitness Goal</label>
+      <select id="goal" name="goal" required>
+        {% for g in goals %}
+        <option value="{{ g }}" {% if form.goal == g %}selected{% endif %}>{{ g|title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="intensity">Workout Intensity</label>
+      <select id="intensity" name="intensity" required>
+        {% for i in intensities %}
+        <option value="{{ i }}" {% if form.intensity == i or (not form.intensity and i == 'medium') %}selected{% endif %}>{{ i|title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <button type="submit" onclick="this.form.checkValidity() && (this.textContent='Generating... (can take ~30s)')">Generate Plan</button>
+</form>
+
+<div class="nav"><a href="/view-all-users">Admin: view all users</a></div>
+{% endblock %}

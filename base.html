@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}FitBuddy{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; font-family: 'Roboto', Arial, sans-serif; color: #f1f1f1;
+      /* Drop a photo at app/static/images/gym-bg.jpg to use it; otherwise the gradient shows. */
+      background: linear-gradient(rgba(10,10,15,.82), rgba(10,10,15,.9)), url('/static/images/gym-bg.jpg') center/cover fixed,
+                  linear-gradient(135deg, #111827, #1f2937);
+      display: flex; justify-content: center; align-items: flex-start; padding: 32px 16px;
+    }
+    .card {
+      width: 100%; max-width: 760px; background: rgba(24,24,32,.92); border-radius: 16px;
+      padding: 28px; box-shadow: 0 10px 40px rgba(0,0,0,.5);
+    }
+    .card.wide { max-width: 1100px; }
+    h1 { margin: 0 0 4px; font-weight: 900; letter-spacing: .5px; text-align: center; }
+    h1 span, h2 span { color: #ff6b35; }
+    h2 { margin: 24px 0 8px; }
+    .subtitle { text-align: center; color: #b8bcc8; margin: 0 0 20px; }
+    label { display: block; margin: 14px 0 6px; font-weight: 500; }
+    input, select, textarea {
+      width: 100%; padding: 11px 12px; border-radius: 8px; border: 1px solid #3b4252;
+      background: #12131a; color: #fff; font: inherit;
+    }
+    input:focus, select:focus, textarea:focus { outline: 2px solid #ff6b35; border-color: transparent; }
+    .row { display: flex; gap: 14px; flex-wrap: wrap; }
+    .row > div { flex: 1 1 160px; }
+    button, .btn {
+      display: inline-block; margin-top: 20px; padding: 12px 22px; border: 0; border-radius: 8px; cursor: pointer;
+      background: #ff6b35; color: #fff; font: inherit; font-weight: 700; text-decoration: none; transition: .2s;
+    }
+    button:hover, .btn:hover { background: #ff855a; transform: translateY(-1px); }
+    button.danger { background: #b3261e; margin: 0; padding: 6px 12px; font-size: 13px; }
+    .btn.ghost { background: transparent; border: 1px solid #ff6b35; color: #ff6b35; }
+    .alert { padding: 12px 14px; border-radius: 8px; margin: 0 0 16px; }
+    .alert.error { background: rgba(179,38,30,.25); border: 1px solid #b3261e; }
+    .alert.ok { background: rgba(46,125,50,.25); border: 1px solid #2e7d32; }
+    pre.plan {
+      white-space: pre-wrap; word-wrap: break-word; background: #12131a; border-radius: 10px;
+      padding: 16px; line-height: 1.55; font-family: 'Roboto', Arial, sans-serif; font-size: 15px; margin: 0;
+    }
+    .tip { background: rgba(255,107,53,.12); border-left: 4px solid #ff6b35; padding: 12px 16px; border-radius: 8px; }
+    .summary { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 0; }
+    .chip { background: #12131a; border: 1px solid #3b4252; border-radius: 999px; padding: 6px 14px; font-size: 14px; }
+    .chip b { color: #ff6b35; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #333846; vertical-align: top; font-size: 14px; }
+    th { color: #ff6b35; }
+    details summary { cursor: pointer; color: #ff8f66; }
+    details pre.plan { margin-top: 8px; font-size: 13px; max-height: 320px; overflow: auto; }
+    .nav { text-align: center; margin-top: 18px; }
+    .nav a { color: #ff8f66; }
+    .table-wrap { overflow-x: auto; }
+    @media (max-width: 600px) { .card { padding: 18px; } body { padding: 16px 10px; } }
+  </style>
+</head>
+<body>
+  <div class="card {% block card_class %}{% endblock %}">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
